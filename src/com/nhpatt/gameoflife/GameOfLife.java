@@ -6,17 +6,31 @@ import java.util.List;
 
 public class GameOfLife {
 
-    List<Point> cellsAlive = new ArrayList<>();
+    int[][] board;
     int length;
 
 
     public GameOfLife() {
         this.length = 3;
+
     }
 
-    public GameOfLife(int length, Point... points) {
+    public GameOfLife(int length, int[][] points) {
         this.length = length;
-        this.cellsAlive = new ArrayList<>(Arrays.asList(points));
+
+        this.board = initBoard(length);
+
+        for (int[] point : points) {
+            this.board[point[0]][point[1]] = 1;
+        }
+    }
+
+    private int[][] initBoard(int length) {
+        int[][] board = new int[length][length];
+        for (int i = 0; i < length; i++) {
+            board[i] = new int[length];
+        }
+        return board;
     }
 
     public boolean checkIfAlive(boolean cellAlive, int aliveNeighbours) {
@@ -27,11 +41,11 @@ public class GameOfLife {
         }
     }
 
-    public List<Point> getNeighbours(int x, int y, int length) {
+    public List<int[]> getNeighbours(int x, int y, int length) {
 
         List<Integer> positions = Arrays.asList(-1, 0, 1);
 
-        List<Point> points = new ArrayList<>();
+        List<int[]> neighbours = new ArrayList<>();
 
         for (int j : positions) {
             for (int i : positions) {
@@ -43,38 +57,38 @@ public class GameOfLife {
 
                 if (x + i >= 0 && x + i < length &&
                         y + j >= 0 && y + j < length) {
-                    points.add(new Point(x + i, y + j));
+                    neighbours.add(new int[]{x + i, y + j});
                 }
             }
         }
 
-        return points;
+        return neighbours;
     }
 
     public void tick() {
-        List<Point> cells = new ArrayList<>();
-
+        int[][] board = initBoard(length);
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                List<Point> neighbours = getNeighbours(i, j, length);
+                List<int[]> neighbours = getNeighbours(i, j, length);
 
-                int aliveNeighbours = (int) neighbours.stream().filter(point -> isAlive(point.x(), point.y())).count();
+                int aliveNeighbours = 0;
+                for (int[] neighbour : neighbours) {
+                    if (isAlive(neighbour[0], neighbour[1])) {
+                        aliveNeighbours++;
+                    }
+                }
 
-                boolean alive = checkIfAlive(findCell(i, j), aliveNeighbours);
+                boolean alive = checkIfAlive(isAlive(i, j), aliveNeighbours);
 
                 if (alive) {
-                    cells.add(new Point(i, j));
+                    board[i][j] = 1;
                 }
             }
         }
-        this.cellsAlive = cells;
-    }
-
-    private boolean findCell(int x, int y) {
-        return cellsAlive.stream().anyMatch(point -> point.x() == x && point.y() == y);
+        this.board = board;
     }
 
     public boolean isAlive(int x, int y) {
-        return findCell(x, y);
+        return this.board[x][y] == 1;
     }
 }
