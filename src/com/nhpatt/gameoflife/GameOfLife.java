@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GameOfLife {
 
-    int[][] board;
+    boolean[][] board;
     int length;
 
 
@@ -21,14 +21,14 @@ public class GameOfLife {
         this.board = initBoard(length);
 
         for (int[] point : points) {
-            this.board[point[0]][point[1]] = 1;
+            this.board[point[0]][point[1]] = true;
         }
     }
 
-    private int[][] initBoard(int length) {
-        int[][] board = new int[length][length];
+    private boolean[][] initBoard(int length) {
+        boolean[][] board = new boolean[length][length];
         for (int i = 0; i < length; i++) {
-            board[i] = new int[length];
+            board[i] = new boolean[length];
         }
         return board;
     }
@@ -66,7 +66,7 @@ public class GameOfLife {
     }
 
     public void tick() {
-        int[][] board = initBoard(length);
+        boolean[][] board = initBoard(length);
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 List<int[]> neighbours = getNeighbours(i, j, length);
@@ -81,7 +81,7 @@ public class GameOfLife {
                 boolean alive = checkIfAlive(isAlive(i, j), aliveNeighbours);
 
                 if (alive) {
-                    board[i][j] = 1;
+                    board[i][j] = true;
                 }
             }
         }
@@ -89,6 +89,6 @@ public class GameOfLife {
     }
 
     public boolean isAlive(int x, int y) {
-        return this.board[x][y] == 1;
+        return this.board[x][y];
     }
 }
