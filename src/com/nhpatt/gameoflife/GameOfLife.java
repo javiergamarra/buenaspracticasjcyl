@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GameOfLife {
 
-    int[] board;
+    List<Integer> board;
     int length;
 
 
@@ -18,10 +18,10 @@ public class GameOfLife {
     public GameOfLife(int length, int[][] points) {
         this.length = length;
 
-        this.board = new int[length];
+        this.board = new ArrayList<>();
 
         for (int i = 0; i < points.length; i++) {
-            this.board[i] = points[i][0] * length + points[i][1];
+            this.board.add(points[i][0] * length + points[i][1]);
         }
     }
 
@@ -33,11 +33,11 @@ public class GameOfLife {
         }
     }
 
-    public List<int[]> getNeighbours(int x, int y, int length) {
+    List<Integer> positions = Arrays.asList(-1, 0, 1);
 
-        List<Integer> positions = Arrays.asList(-1, 0, 1);
+    public int getAliveNeighbours(int x, int y, int length) {
 
-        List<int[]> neighbours = new ArrayList<>();
+        int aliveNeighbours = 0;
 
         for (int j : positions) {
             for (int i : positions) {
@@ -49,37 +49,42 @@ public class GameOfLife {
 
                 if (x + i >= 0 && x + i < length &&
                         y + j >= 0 && y + j < length) {
-                    neighbours.add(new int[]{x + i, y + j});
+
+                    int value = (x + i) * length + (y + j);
+                    if (isAlive(value)) {
+                        aliveNeighbours++;
+                    }
                 }
             }
         }
 
-        return neighbours;
+        return aliveNeighbours;
     }
 
     public void tick() {
-        int[] board = new int[length];
-        int index = 0;
+        List<Integer> board = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                List<int[]> neighbours = getNeighbours(i, j, length);
 
-                int aliveNeighbours = 0;
-                for (int[] neighbour : neighbours) {
-                    if (isAlive(neighbour[0], neighbour[1])) {
-                        aliveNeighbours++;
-                    }
-                }
+                int aliveNeighbours = getAliveNeighbours(i, j, length);
 
                 boolean alive = checkIfAlive(isAlive(i, j), aliveNeighbours);
 
                 if (alive) {
-                    board[index] = i * length + j;
-                    index++;
+                    board.add(i * length + j);
                 }
             }
         }
         this.board = board;
+    }
+
+    private boolean isAlive(int neighbour) {
+        for (int value : this.board) {
+            if (value == neighbour) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isAlive(int x, int y) {

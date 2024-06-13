@@ -40,28 +40,28 @@ public class GameOfLifeTest {
         assertFalse(alive);
     }
 
-    @Test
-    public void oneCellInTheCornerHasThreeNeighbours() {
-        GameOfLife game = new GameOfLife();
-        List<int[]> points = game.getNeighbours(0, 0, 3);
+//    @Test
+//    public void oneCellInTheCornerHasThreeNeighbours() {
+//        GameOfLife game = new GameOfLife();
+//        List<int[]> points = game.getNeighbours(0, 0, 3);
+//
+//        assertEquals(3, points.size());
+//
+//        assertEquals(1, points.get(0)[0]);
+//        assertEquals(0, points.get(0)[1]);
+//        assertEquals(0, points.get(1)[0]);
+//        assertEquals(1, points.get(1)[1]);
+//        assertEquals(1, points.get(2)[0]);
+//        assertEquals(1, points.get(2)[1]);
+//    }
 
-        assertEquals(3, points.size());
-
-        assertEquals(1, points.get(0)[0]);
-        assertEquals(0, points.get(0)[1]);
-        assertEquals(0, points.get(1)[0]);
-        assertEquals(1, points.get(1)[1]);
-        assertEquals(1, points.get(2)[0]);
-        assertEquals(1, points.get(2)[1]);
-    }
-
-    @Test
-    public void oneCellInTheMiddleHasEightNeighbours() {
-        GameOfLife game = new GameOfLife();
-        List<int[]> points = game.getNeighbours(1, 1, 3);
-
-        assertEquals(8, points.size());
-    }
+//    @Test
+//    public void oneCellInTheMiddleHasEightNeighbours() {
+//        GameOfLife game = new GameOfLife();
+//        List<int[]> points = game.getNeighbours(1, 1, 3);
+//
+//        assertEquals(8, points.size());
+//    }
 
     @Test
     public void aBoardWithAMiddleCellAliveDies() {
@@ -79,31 +79,31 @@ public class GameOfLifeTest {
         assertEquals(true, game.isAlive(1, 1));
     }
 
-        @Test
-        public void aBoardWithSomeCellsAliveDiesInTwoSteps () {
-            GameOfLife game = new GameOfLife(3, new int[][]{{0, 1}, new int[]{1, 1}, new int[]{2, 2}});
-            game.tick();
+    @Test
+    public void aBoardWithSomeCellsAliveDiesInTwoSteps() {
+        GameOfLife game = new GameOfLife(3, new int[][]{{0, 1}, new int[]{1, 1}, new int[]{2, 2}});
+        game.tick();
 
-            assertEquals(false, game.isAlive(0, 0));
-            assertEquals(false, game.isAlive(0, 1));
-            assertEquals(false, game.isAlive(0, 2));
-            assertEquals(false, game.isAlive(1, 0));
-            assertEquals(true, game.isAlive(1, 1));
-            assertEquals(true, game.isAlive(1, 2));
-            assertEquals(false, game.isAlive(2, 0));
-            assertEquals(false, game.isAlive(2, 1));
-            assertEquals(false, game.isAlive(2, 2));
+        assertEquals(false, game.isAlive(0, 0));
+        assertEquals(false, game.isAlive(0, 1));
+        assertEquals(false, game.isAlive(0, 2));
+        assertEquals(false, game.isAlive(1, 0));
+        assertEquals(true, game.isAlive(1, 1));
+        assertEquals(true, game.isAlive(1, 2));
+        assertEquals(false, game.isAlive(2, 0));
+        assertEquals(false, game.isAlive(2, 1));
+        assertEquals(false, game.isAlive(2, 2));
 
-            game.tick();
+        game.tick();
 
-            assertEquals(false, game.isAlive(0, 0));
-            assertEquals(false, game.isAlive(0, 1));
-            assertEquals(false, game.isAlive(0, 2));
-            assertEquals(false, game.isAlive(1, 0));
-            assertEquals(false, game.isAlive(1, 1));
-            assertEquals(false, game.isAlive(1, 2));
-            assertEquals(false, game.isAlive(2, 0));
-            assertEquals(false, game.isAlive(2, 1));
-            assertEquals(false, game.isAlive(2, 2));
-        }
+        assertEquals(false, game.isAlive(0, 0));
+        assertEquals(false, game.isAlive(0, 1));
+        assertEquals(false, game.isAlive(0, 2));
+        assertEquals(false, game.isAlive(1, 0));
+        assertEquals(false, game.isAlive(1, 1));
+        assertEquals(false, game.isAlive(1, 2));
+        assertEquals(false, game.isAlive(2, 0));
+        assertEquals(false, game.isAlive(2, 1));
+        assertEquals(false, game.isAlive(2, 2));
     }
+}
