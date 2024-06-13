@@ -79,12 +79,7 @@ public class GameOfLife {
     }
 
     private boolean isAlive(int neighbour) {
-        for (int value : this.board) {
-            if (value == neighbour) {
-                return true;
-            }
-        }
-        return false;
+        return this.board.contains(neighbour);
     }
 
     public boolean isAlive(int x, int y) {
