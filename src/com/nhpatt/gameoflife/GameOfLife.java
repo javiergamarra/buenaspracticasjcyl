@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GameOfLife {
 
-    boolean[][] board;
+    int[] board;
     int length;
 
 
@@ -18,19 +18,11 @@ public class GameOfLife {
     public GameOfLife(int length, int[][] points) {
         this.length = length;
 
-        this.board = initBoard(length);
+        this.board = new int[length];
 
-        for (int[] point : points) {
-            this.board[point[0]][point[1]] = true;
+        for (int i = 0; i < points.length; i++) {
+            this.board[i] = points[i][0] * length + points[i][1];
         }
-    }
-
-    private boolean[][] initBoard(int length) {
-        boolean[][] board = new boolean[length][length];
-        for (int i = 0; i < length; i++) {
-            board[i] = new boolean[length];
-        }
-        return board;
     }
 
     public boolean checkIfAlive(boolean cellAlive, int aliveNeighbours) {
@@ -66,7 +58,8 @@ public class GameOfLife {
     }
 
     public void tick() {
-        boolean[][] board = initBoard(length);
+        int[] board = new int[length];
+        int index = 0;
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 List<int[]> neighbours = getNeighbours(i, j, length);
@@ -81,7 +74,8 @@ public class GameOfLife {
                 boolean alive = checkIfAlive(isAlive(i, j), aliveNeighbours);
 
                 if (alive) {
-                    board[i][j] = true;
+                    board[index] = i * length + j;
+                    index++;
                 }
             }
         }
@@ -89,6 +83,11 @@ public class GameOfLife {
     }
 
     public boolean isAlive(int x, int y) {
-        return this.board[x][y];
+        for (int value : this.board) {
+            if (value == x * length + y) {
+                return true;
+            }
+        }
+        return false;
     }
 }
