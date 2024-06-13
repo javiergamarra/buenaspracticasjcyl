@@ -1,12 +1,10 @@
 package com.nhpatt.gameoflife;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class GameOfLife {
 
-    List<Integer> board;
+    TreeSet<Integer> board;
     int length;
 
 
@@ -18,10 +16,10 @@ public class GameOfLife {
     public GameOfLife(int length, int[][] points) {
         this.length = length;
 
-        this.board = new ArrayList<>();
+        this.board = new TreeSet<>();
 
-        for (int i = 0; i < points.length; i++) {
-            this.board.add(points[i][0] * length + points[i][1]);
+        for (int[] point : points) {
+            this.board.add(point[0] * length + point[1]);
         }
     }
 
@@ -50,7 +48,7 @@ public class GameOfLife {
                 if (x + i >= 0 && x + i < length &&
                         y + j >= 0 && y + j < length) {
 
-                    int value = (x + i) * length + (y + j);
+                    Integer value = (x + i) * length + (y + j);
                     if (isAlive(value)) {
                         aliveNeighbours++;
                     }
@@ -62,7 +60,7 @@ public class GameOfLife {
     }
 
     public void tick() {
-        List<Integer> board = new ArrayList<>();
+        TreeSet<Integer> board = new TreeSet<>();
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
 
@@ -78,7 +76,11 @@ public class GameOfLife {
         this.board = board;
     }
 
-    private boolean isAlive(int neighbour) {
+    private boolean isAlive(Integer neighbour) {
+        if (neighbour > this.board.getLast() || neighbour < this.board.getFirst()) {
+            return false;
+        }
+
         return this.board.contains(neighbour);
     }
 
